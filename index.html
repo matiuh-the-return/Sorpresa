@@ -37,55 +37,62 @@
       position: relative;
       display: inline-block;
     }
-    #rageText {
-      font-size: 1.5rem;
-      font-weight: bold;
+    #msg {
       color: #ff0033;
-      position: absolute;
+      font-size: 1.5rem;
+      margin-bottom: 10px;
       display: none;
-      animation: rageFade 2s ease forwards;
+      position: absolute;
+      top: -40px;
+      left: 50%;
+      transform: translateX(-50%);
+      animation: shake 0.5s infinite alternate;
     }
-    @keyframes rageFade {
-      0% { opacity: 1; transform: translateY(0); }
-      100% { opacity: 0; transform: translateY(-50px); }
+    @keyframes shake {
+      from { transform: translateX(-50%) rotate(-3deg); }
+      to { transform: translateX(-50%) rotate(3deg); }
     }
   </style>
 </head>
 <body>
   <h1>¿Quieres ser mi novia otra vez?</h1>
   <div id="buttonContainer">
+    <div id="msg">¡ME LARGO!</div>
     <button class="btn" id="yesBtn">Sí</button>
     <button class="btn" id="noBtn">No</button>
-    <div id="rageText">¡ME LARGO!!!</div>
   </div>
 
   <script>
     const noBtn = document.getElementById('noBtn');
     const yesBtn = document.getElementById('yesBtn');
-    const rageText = document.getElementById('rageText');
+    const msg = document.getElementById('msg');
+
     let evasions = 0;
 
     noBtn.addEventListener('mouseover', () => {
       evasions++;
+
       if (evasions < 5) {
         const x = Math.random() * (window.innerWidth - 100);
         const y = Math.random() * (window.innerHeight - 50);
         noBtn.style.left = `${x}px`;
         noBtn.style.top = `${y}px`;
       } else if (evasions === 5) {
-        const rect = noBtn.getBoundingClientRect();
-        rageText.style.left = `${rect.left}px`;
-        rageText.style.top = `${rect.top - 40}px`;
-        rageText.style.display = 'block';
-
+        // Mostrar mensaje y desaparecer botón
+        msg.style.display = 'block';
         setTimeout(() => {
           noBtn.style.display = 'none';
-        }, 500); // Desaparece el botón "No" poco después del texto
+          msg.style.animation = 'none';
+          msg.innerText = '...Y se fue 😔';
+          setTimeout(() => {
+            msg.style.display = 'none';
+          }, 2000);
+        }, 1500);
       }
     });
 
     yesBtn.addEventListener('click', () => {
-      window.location.href = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'; // cámbialo por tu video especial
+      window.location.href = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'; // Cámbialo si quieres
     });
   </script>
 </body>
